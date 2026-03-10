@@ -196,8 +196,8 @@ export const projects: Project[] = [
       en: "Designed and implemented a web service that filters options by user conditions, suggests meal combinations, and supports ranking and recipe-sharing interactions.",
       ko: "사용자 조건 기반 필터링, 조합 추천, 랭킹 및 레시피 공유 기능을 갖춘 웹 서비스를 기획하고 구현했습니다."
     },
-    architecture: ["Frontend (React / Web UI)", "FastAPI Backend", "MySQL Database"],
-    technologies: ["React", "HTML", "CSS", "JavaScript", "FastAPI", "MySQL", "Python"],
+    architecture: ["Frontend (React / Web UI)", "FastAPI Backend", "Supabase Database"],
+    technologies: ["React", "HTML", "CSS", "JavaScript", "FastAPI", "Supabase", "Python"],
     role: [
       { en: "Led service planning and feature structure design", ko: "서비스 기획 및 기능 구조 설계를 주도했습니다" },
       { en: "Implemented key web service features", ko: "핵심 웹 서비스 기능을 구현했습니다" },
