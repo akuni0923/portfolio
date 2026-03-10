@@ -21,6 +21,7 @@ export function HeroCanvas() {
     let raf = 0;
     let width = 0;
     let height = 0;
+    let running = true;
 
     const setSize = () => {
       width = canvas.clientWidth;
@@ -43,11 +44,25 @@ export function HeroCanvas() {
       }
     };
 
-    const handlePointerMove = (event: PointerEvent) => {
+    const updatePointer = (clientX: number, clientY: number) => {
       const rect = canvas.getBoundingClientRect();
-      pointer.x = event.clientX - rect.left;
-      pointer.y = event.clientY - rect.top;
+      pointer.x = clientX - rect.left;
+      pointer.y = clientY - rect.top;
       pointer.active = true;
+    };
+
+    const handlePointerMove = (event: PointerEvent) => {
+      updatePointer(event.clientX, event.clientY);
+    };
+
+    const handleMouseMove = (event: MouseEvent) => {
+      updatePointer(event.clientX, event.clientY);
+    };
+
+    const handleTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      updatePointer(touch.clientX, touch.clientY);
     };
 
     const handlePointerLeave = () => {
@@ -55,6 +70,7 @@ export function HeroCanvas() {
     };
 
     const draw = () => {
+      if (!running) return;
       context.clearRect(0, 0, width, height);
 
       for (const point of points) {
@@ -115,15 +131,35 @@ export function HeroCanvas() {
       seedPoints();
     };
 
+    const handleVisibilityChange = () => {
+      running = !document.hidden;
+      if (running) {
+        raf = window.requestAnimationFrame(draw);
+      } else {
+        window.cancelAnimationFrame(raf);
+      }
+    };
+
     window.addEventListener("resize", handleResize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("mousemove", handleMouseMove);
+    canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
     canvas.addEventListener("pointerleave", handlePointerLeave);
+    canvas.addEventListener("mouseleave", handlePointerLeave);
+    canvas.addEventListener("touchend", handlePointerLeave);
 
     return () => {
+      running = false;
       window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", handleResize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       canvas.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("touchmove", handleTouchMove);
       canvas.removeEventListener("pointerleave", handlePointerLeave);
+      canvas.removeEventListener("mouseleave", handlePointerLeave);
+      canvas.removeEventListener("touchend", handlePointerLeave);
     };
   }, []);
 

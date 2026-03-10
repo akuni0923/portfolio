@@ -16,21 +16,33 @@ export default function Home() {
   const [locale, setLocale] = useState<Locale>("en");
 
   useEffect(() => {
-    const savedLocale = window.localStorage.getItem(LOCALE_KEY);
-    if (savedLocale === "en" || savedLocale === "ko") {
-      setLocale(savedLocale);
-      return;
+    try {
+      const savedLocale = window.localStorage.getItem(LOCALE_KEY);
+      if (savedLocale === "en" || savedLocale === "ko") {
+        setLocale(savedLocale);
+        return;
+      }
+    } catch {
+      // Some mobile browsers can block storage access in strict privacy modes.
     }
 
-    const browserLocale = window.navigator.language.toLowerCase();
-    if (browserLocale.startsWith("ko")) {
-      setLocale("ko");
+    try {
+      const browserLocale = window.navigator.language.toLowerCase();
+      if (browserLocale.startsWith("ko")) {
+        setLocale("ko");
+      }
+    } catch {
+      setLocale("en");
     }
   }, []);
 
   const handleLocaleChange = (nextLocale: Locale) => {
     setLocale(nextLocale);
-    window.localStorage.setItem(LOCALE_KEY, nextLocale);
+    try {
+      window.localStorage.setItem(LOCALE_KEY, nextLocale);
+    } catch {
+      // Ignore storage failures and keep locale in memory for this session.
+    }
   };
 
   return (
