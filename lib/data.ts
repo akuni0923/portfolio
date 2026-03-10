@@ -5,6 +5,10 @@ type LocalizedString = {
   ko: string;
 };
 
+type LocalizedEntry = LocalizedString & {
+  href?: string;
+};
+
 export type StackCategory = {
   title: LocalizedString;
   items: string[];
@@ -20,12 +24,12 @@ export type Project = {
   technologies: string[];
   role: LocalizedString[];
   features: LocalizedString[];
-  notes: LocalizedString[];
+  notes: LocalizedEntry[];
 };
 
 export type ActivityGroup = {
   title: LocalizedString;
-  entries: LocalizedString[];
+  entries: LocalizedEntry[];
 };
 
 export const navItems = [
@@ -169,6 +173,11 @@ export const projects: Project[] = [
       {
         en: "Formal benchmark metrics are not published at this stage.",
         ko: "공식 벤치마크 지표는 아직 공개되지 않았습니다."
+      },
+      {
+        en: "Related coverage: DWB News article",
+        ko: "관련 기사: DWB 뉴스 보도",
+        href: "https://dwbnews.kr/news/articleView.html?idxno=106723"
       }
     ]
   },
@@ -235,8 +244,15 @@ export const activities: ActivityGroup[] = [
   {
     title: { en: "Competitions", ko: "대회" },
     entries: [
-      { en: "Data Creator Camp", ko: "Data Creator Camp" },
-      { en: "Andong AI Creative Competition", ko: "안동 AI 창의융합 경진대회" }
+      {
+        en: "Data Creator Camp - Encouragement Award",
+        ko: "데이터 크리에이터 캠프 - 장려상 수상"
+      },
+      {
+        en: "Andong AI Creative Competition - Silver Award",
+        ko: "안동 AI 창의융합 경진대회 - 은상 수상",
+        href: "https://iaae.ai/genaicontest/?bmode=view&idx=167485115"
+      }
     ]
   },
   {

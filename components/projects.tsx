@@ -129,7 +129,15 @@ export function Projects({ locale }: ProjectsProps) {
                   <h4 className="text-sm font-medium uppercase tracking-[0.14em] text-slate-300">{t(locale, uiText.projects.notes)}</h4>
                   <ul className="mt-2 space-y-2 text-sm text-slate-300">
                     {activeProject.notes.map((item) => (
-                      <li key={item.en}>{t(locale, item)}</li>
+                      <li key={item.en}>
+                        {item.href ? (
+                          <a href={item.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-accent">
+                            {t(locale, item)}
+                          </a>
+                        ) : (
+                          t(locale, item)
+                        )}
+                      </li>
                     ))}
                   </ul>
                 </div>

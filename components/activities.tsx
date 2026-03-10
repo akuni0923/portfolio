@@ -25,7 +25,13 @@ export function Activities({ locale }: ActivitiesProps) {
               <ul className="mt-3 flex flex-wrap gap-2">
                 {group.entries.map((entry) => (
                   <li key={entry.en} className="rounded-full bg-[#0a1322] px-3 py-1.5 text-sm text-slate-200">
-                    {t(locale, entry)}
+                    {entry.href ? (
+                      <a href={entry.href} target="_blank" rel="noreferrer" className="transition-colors hover:text-accent">
+                        {t(locale, entry)}
+                      </a>
+                    ) : (
+                      t(locale, entry)
+                    )}
                   </li>
                 ))}
               </ul>
